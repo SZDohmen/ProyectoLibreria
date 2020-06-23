@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header bg-secondary text-light" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-title">
+					<a th:href="@{'/cliente/listar'}" class="btn btn-light btn-xs">&laquo; volver</a>
+				</h4>
+
+				<ul class="list-group">
+					<li class="list-group-item" th:text="${cliente.nombre}"></li>
+					<li class="list-group-item" th:text="${cliente.apellido}"></li>
+					<li class="list-group-item" th:text="${cliente.telefono}"></li>
+				</ul>
+
+				<div th:if="${#lists.isEmpty(cliente.facturasVenta)}" class="alert alert-info mt-4 mb-2" th:text="'No hay facturas asignadas para el cliente ' + ${cliente.nombre} + ' ' + ${cliente.apellido}"></div>
+
+				<div th:if="${not #lists.isEmpty(cliente.facturasVenta)}" class="card-header mt-4 mb-2" th:text="'Lista de facturas'"></div>
+				
+				<h4>
+					<a class="btn btn-success btn-xs" th:href="@{'/facturaVenta/form/' + ${cliente.id}}" th:text="'Crear factura'"></a>
+				</h4>
+				
+				<table th:if="${not #lists.isEmpty(cliente.facturasVenta)}" class="table table-bordered table-striped my-2">
+					<thead class="thead-dark">
+						<tr>
+							<th>Número</th>
+							<th>Fecha</th>
+							<th>Total</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:each="facturaVenta: ${cliente.facturasVenta}">
+							<td th:text="${facturaVenta.id}"></td>
+							<td th:text="${facturaVenta.fecha}"></td>
+							<td th:text="${facturaVenta.total}"></td>
+							<td>
+								<a class="btn btn-primary btn-xs" th:href="@{'/facturaVenta/ver/' + ${facturaVenta.id}}" th:text="'Ver detalle'"></a>
+								<a class="btn btn-danger btn-xs" th:href="@{'/facturaVenta/eliminar/' + ${facturaVenta.id}}" th:text="'Eliminar'" onclick="return confirm('¿Estás segura que deseas eliminar la factura?');"></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>
