@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header bg-secondary text-light" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-title">
+					<a th:href="@{/producto/form}" class="btn btn-success btn-xs">Agregar nuevo producto</a>
+					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#elegirProveedor">Actualizar stock</button>
+				</h4>			
+
+				<!-- Modal -->
+				<div class="modal fade" id="elegirProveedor" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+						
+							<div class="modal-header">
+								<h5 class="modal-title" id="staticBackdropLabel">Elegir proveedor</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+							</div>
+							
+							<div class="modal-body">
+								<div class="btn-group" role="group">
+    								<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Proveedores existentes
+    									<span class="caret"></span>
+    								</button>
+    								
+    								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuLink">
+      									<li th:each="proveedor: ${proveedores}" class="dropdown-item">
+      										<a class="btn" th:href="@{'/facturaCompra/form/' + ${proveedor.id}}" th:text="${proveedor.nombre} + ' ' + ${proveedor.apellido}"></a>
+      									</li>
+    								</ul>
+    								
+  								</div>
+  								
+  								<a th:href="@{/proveedor/form}" class="btn btn-primary btn-xs">Agregar nuevo proveedor</a>
+  								
+							</div>
+							
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>id</th>
+							<th>Producto</th>
+							<th>Precio compra</th>
+							<th>Precio venta</th>
+							<th>Stock</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:each="producto: ${productos}">
+							<td th:text="${producto.id}"></td>
+							<td th:text="${producto.nombre}"></td>
+							<td th:text="${producto.precio.precioCompra}"></td>
+							<td th:text="${producto.precio.precioVenta}"></td>
+							<td th:text="${producto.stock.cantidad}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>

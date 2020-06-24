@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header bg-secondary text-light" th:text="${titulo}"></div>
+			<div class="card-body">
+			
+				<h4 class="card-title">
+					<a th:href="@{/proveedor/form}" class="btn btn-dark btn-xs">Agregar nuevo Proveedor</a>
+				</h4>
+				
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Apellido</th>
+							<th>Teléfono</th>
+							<th>Información del Proveedor</th>
+							<th>Facturación</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr th:each="proveedor: ${proveedores}">
+							
+							<td th:text="${proveedor.nombre}"></td>
+							<td th:text="${proveedor.apellido}"></td>
+							<td th:text="${proveedor.telefono}"></td>
+							<td>
+								<a class="btn btn-warning btn-xs" th:href="@{/proveedor/form/} + ${proveedor.id}" th:text="'Editar'"></a>
+								<a class="btn btn-danger btn-xs" th:href="@{/proveedor/eliminar/} + ${proveedor.id}" th:text="'Eliminar'" onclick="return confirm('¿Estás segura que deseas eliminar le proveedor?');"></a>
+							</td>
+							<td>
+								<a class="btn btn-success btn-xs" th:href="@{'/facturaCompra/form/' + ${proveedor.id}}" th:text="'Crear factura'"></a>
+								<a class="btn btn-info btn-xs" th:href="@{/proveedor/ver/} + ${proveedor.id}" th:text="'Historial de Facturacion'"></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+								
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>
